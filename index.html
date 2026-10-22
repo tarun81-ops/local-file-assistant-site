@@ -173,19 +173,52 @@ p { max-width: 62ch; }
 .smart { margin-top: 24px; padding: 16px 18px; border: 1px dashed var(--line); border-radius: 10px; color: var(--muted); font-size: 15px; max-width: none; background: var(--surface); }
 .smart strong { color: var(--ink); font-weight: 600; }
 
-/* features */
-.feat { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 56px; }
-@media (max-width: 800px) { .feat { grid-template-columns: minmax(0, 1fr); } }
-.feat > div { display: grid; gap: 6px; padding-block: 22px; border-top: 1px dashed var(--line); }
-.feat dt { font: 600 1.05rem/1.4 var(--body); letter-spacing: -0.01em; }
-.feat dd { color: var(--muted); font-size: 16px; }
+/* features: bento grid, each card carries a small worked example */
+.bento { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+@media (max-width: 900px) { .bento { grid-template-columns: minmax(0,1fr); } }
+.fc { display: flex; flex-direction: column; gap: 10px; padding: 24px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); transition: transform .25s, border-color .25s, box-shadow .25s; }
+.fc:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 18px 40px -22px rgba(255,76,0,.4); }
+.fc.w2 { grid-column: span 2; }
+@media (max-width: 900px) { .fc.w2 { grid-column: auto; } }
+.fc .k { font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-text); }
+.fc p { color: var(--muted); font-size: 15.5px; }
+.demo { margin-top: auto; padding: 12px 14px; border: 1px dashed var(--line); border-radius: 10px; background: var(--sunk); font: 400 12.5px/1.7 var(--mono); color: var(--ink); overflow-wrap: anywhere; }
+.demo .q { color: var(--accent-text); }
+.demo .q::before { content: "\203A  "; }
+.demo .dim { color: var(--muted); }
+.demo .ok { color: var(--ok); }
+.demo .bad { color: var(--accent-text); }
+.demo .row { display: flex; justify-content: space-between; gap: 12px; }
+.demo .btns { display: flex; gap: 8px; margin-top: 6px; }
+.demo .b { padding: 2px 10px; border-radius: 6px; background: var(--grey); font: 500 12px/1.6 var(--mono); }
+.demo .b.go { background: var(--accent); color: #fff; }
+.tg { display: inline-block; width: 30px; height: 17px; border-radius: 99px; background: var(--accent); position: relative; vertical-align: -3px; margin-right: 8px; }
+.tg::after { content: ""; position: absolute; top: 2px; right: 2px; width: 13px; height: 13px; border-radius: 50%; background: #fff; }
 
-/* privacy */
-.cols3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-@media (max-width: 900px) { .cols3 { grid-template-columns: minmax(0, 1fr); } }
-.col { display: grid; align-content: start; gap: 12px; padding: 24px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
-.col ul { padding-left: 18px; display: grid; gap: 8px; font-size: 15.5px; color: var(--muted); }
-.col ul li::marker { color: var(--accent); }
+/* privacy: where data lives, and a ledger of every network touch */
+.zone { display: grid; grid-template-columns: minmax(0,1fr) 120px minmax(0,1fr); gap: 0; align-items: stretch; }
+@media (max-width: 820px) { .zone { grid-template-columns: minmax(0,1fr); } .wire { height: 80px; } }
+.box { display: grid; align-content: start; gap: 12px; padding: 28px; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); }
+.box.pc { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.box ul { list-style: none; padding: 0; display: grid; gap: 8px; font-size: 15.5px; }
+.box li { display: flex; gap: 10px; align-items: baseline; }
+.box.pc li::before { content: "\2713"; color: var(--ok); font-weight: 700; }
+.box.net li::before { content: "\2715"; color: var(--muted); }
+.box.net { background: transparent; border-style: dashed; color: var(--muted); }
+.wire { position: relative; display: grid; place-items: center; }
+.wire::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 2px dashed var(--line); }
+.wire span { position: relative; padding: 6px 10px; border: 1px solid var(--line); border-radius: 99px; background: var(--bg); font: 500 11px/1 var(--mono); letter-spacing: .06em; color: var(--accent-text); text-transform: uppercase; }
+.wire i { position: absolute; top: calc(50% - 4px); left: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: pkt 2.6s linear infinite; opacity: 0; }
+.wire i:nth-child(2) { animation-delay: 1.3s; }
+@keyframes pkt { 0% { left: 0; opacity: 0; } 15% { opacity: 1; } 42% { opacity: 1; } 50% { left: 44%; opacity: 0; } 100% { left: 44%; opacity: 0; } }
+.ledger { margin-top: 28px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); overflow: hidden; }
+.led { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,1.6fr) max-content; gap: 8px 24px; align-items: center; padding: 16px 24px; border-top: 1px dashed var(--line); font-size: 15px; }
+.led:first-child { border-top: 0; }
+.led b { font-weight: 600; }
+.led span { color: var(--muted); }
+.st { font-style: normal; padding: 3px 10px; border-radius: 99px; background: var(--accent-soft); color: var(--accent-text); font: 500 12px/1.5 var(--mono); white-space: nowrap; }
+.st.off { background: var(--grey); color: var(--muted); }
+@media (max-width: 720px) { .led { grid-template-columns: minmax(0,1fr); } .st { justify-self: start; } }
 
 /* steps */
 .steps { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; counter-reset: s; }
@@ -197,14 +230,23 @@ p { max-width: 62ch; }
 .steps p { color: var(--muted); font-size: 15.5px; }
 
 /* faq */
-.faq { display: grid; max-width: 820px; }
-.faq details { border-top: 1px dashed var(--line); }
-.faq details:last-child { border-bottom: 1px dashed var(--line); }
-.faq summary { display: flex; justify-content: space-between; gap: 20px; padding: 18px 0; font: 500 1.05rem/1.4 var(--body); cursor: pointer; list-style: none; }
+.faqwrap { display: grid; grid-template-columns: minmax(0,320px) minmax(0,1fr); gap: 56px; align-items: start; }
+@media (max-width: 900px) { .faqwrap { grid-template-columns: minmax(0,1fr); gap: 28px; } }
+.faqside { position: sticky; top: 96px; display: grid; gap: 14px; }
+@media (max-width: 900px) { .faqside { position: static; } }
+.faqside p { color: var(--muted); }
+.faq { display: grid; gap: 10px; }
+.faq .grp { margin: 22px 0 4px; font: 500 12px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent-text); }
+.faq .grp:first-child { margin-top: 0; }
+.faq details { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); transition: border-color .2s, box-shadow .2s; }
+.faq details[open] { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.faq summary { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 18px 22px; font: 500 1.05rem/1.4 var(--body); cursor: pointer; list-style: none; }
 .faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; font: 400 1.4rem/1 var(--mono); color: var(--accent); }
-.faq details[open] summary::after { content: "\2212"; }
-.faq details p { padding-bottom: 20px; color: var(--muted); }
+.faq summary::after { content: "+"; flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; background: var(--grey); font: 400 1.2rem/1 var(--mono); color: var(--accent); transition: transform .25s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details > div { padding: 0 22px 20px; display: grid; gap: 12px; color: var(--muted); }
+.faq details p { max-width: 64ch; }
+.faq details .demo { margin-top: 0; color: var(--ink); }
 
 /* footer */
 .foot { padding-block: 40px 56px; border-top: 1px dashed var(--line); color: var(--muted); font-size: 14px; }
@@ -341,19 +383,40 @@ p { max-width: 62ch; }
       <div class="head rv">
         <span class="eyebrow">What it does</span>
         <h2>Everything your files know, one question away</h2>
+        <p class="sub">Real questions, the way people actually type them. The examples below are made up, but the behaviour is what the app does.</p>
       </div>
-      <dl class="feat">
-        <div><dt>Find</dt><dd>Finds files by name or content in the folders and drives you allow. It copes with misspelled names and names typed in Hinglish.</dd></div>
-        <div><dt>Answer</dt><dd>Every answer lists the file and page it used. A claim that is not in the cited file is marked as not verified.</dd></div>
-        <div><dt>Your documents</dt><dd>Asked for your own marksheet, it checks the name on the file, so someone else's is not shown as yours. Totals and percentages are calculated by code, not guessed.</dd></div>
-        <div><dt>Workspaces</dt><dd>Keep separate sets of folders, each with its own chats and answer style.</dd></div>
-        <div><dt>Files only</dt><dd>Checks each answer against your files and says so when it cannot back it with one, instead of answering from general knowledge.</dd></div>
-        <div><dt>Drop a file</dt><dd>Drop a PDF or an image on the chat to ask about it. It is read for that answer and added to your index only if you choose Keep.</dd></div>
-        <div><dt>Plug-in tools</dt><dd>Add local MCP servers as tools. A tool that looks like it changes things or sends data asks you first.</dd></div>
-        <div><dt>You approve changes</dt><dd>Tidying up files is a proposal you approve, and removed files go to the Recycle Bin.</dd></div>
-        <div><dt>Model picker</dt><dd>See the models on your PC with their size and expected memory use, and download or remove them. It never switches model by itself.</dd></div>
-        <div><dt>Updates</dt><dd>Checks for a new version once a day, tells you when one is ready, and restarts only when you click. You can switch the check off.</dd></div>
-      </dl>
+      <div class="bento">
+        <div class="fc w2 rv"><span class="k">Find</span><h3>Finds the file even when you can't remember its name</h3>
+          <p>Searches names and contents in the folders and drives you allow. It copes with misspelled names and names typed in Hinglish.</p>
+          <div class="demo"><div class="q">marksheat 12th pdf</div><div class="row"><span>Documents\school\marksheet_12.pdf</span><span class="dim">name + content</span></div><div class="q" style="margin-top:6px">meri bijli ka bill dikhao</div><div class="row"><span>Downloads\electricity_bill_oct.pdf</span><span class="dim">content</span></div></div></div>
+        <div class="fc rv" style="--d:80ms"><span class="k">Answer</span><h3>Answers with receipts</h3>
+          <p>Every answer lists the file and page it used. A claim that is not in the cited file is marked as not verified.</p>
+          <div class="demo"><div class="q">When does my lease end?</div><div>31 March 2027</div><div class="ok">&#10003; lease_agreement.pdf · page 4</div><div class="bad">! "rent rises 5%" not found in file</div></div></div>
+        <div class="fc rv"><span class="k">Your documents</span><h3>Knows whose paper it is</h3>
+          <p>Asked for your own marksheet, it checks the name on the file, so someone else's is not shown as yours. Totals and percentages are calculated by code, not guessed.</p>
+          <div class="demo"><div class="ok">&#10003; owner check passed</div><div>412 / 500 = <b>82.4%</b></div><div class="dim">computed in code, not by the model</div></div></div>
+        <div class="fc rv" style="--d:80ms"><span class="k">Files only</span><h3>Says "I can't back that up"</h3>
+          <p>Checks each answer against your files and says so when it cannot back it with one, instead of answering from general knowledge.</p>
+          <div class="demo"><div><span class="tg"></span>Files only</div><div class="q">Who won the 2018 World Cup?</div><div class="bad">Nothing in your files covers this.</div></div></div>
+        <div class="fc rv" style="--d:160ms"><span class="k">Workspaces</span><h3>One PC, separate worlds</h3>
+          <p>Keep separate sets of folders, each with its own chats and answer style.</p>
+          <div class="demo"><div class="row"><span>College</span><span class="dim">3 folders</span></div><div class="row"><span>Freelance</span><span class="dim">2 folders</span></div><div class="row"><span>Home</span><span class="dim">1 folder</span></div></div></div>
+        <div class="fc rv"><span class="k">Drop a file</span><h3>Ask about a file without indexing it</h3>
+          <p>Drop a PDF or an image on the chat to ask about it. It is read for that answer and added to your index only if you choose Keep.</p>
+          <div class="demo"><div class="dim">Dropped: scanned_receipt.jpg</div><div class="q">What was the total?</div><div>&#8377;1,249</div><div class="btns"><span class="b go">Keep</span><span class="b">Don't keep</span></div></div></div>
+        <div class="fc rv" style="--d:80ms"><span class="k">Plug-in tools</span><h3>Connect local tools, with a safety catch</h3>
+          <p>Add local MCP servers as tools. A tool that looks like it changes things or sends data asks you first.</p>
+          <div class="demo"><div>Tool wants to: <b>send data</b></div><div class="btns"><span class="b go">Allow once</span><span class="b">Block</span></div></div></div>
+        <div class="fc rv" style="--d:160ms"><span class="k">You approve changes</span><h3>Tidy-ups are proposals, never surprises</h3>
+          <p>Tidying up files is a proposal you approve, and removed files go to the Recycle Bin.</p>
+          <div class="demo"><div>Move 14 files to Documents\Taxes</div><div class="dim">Delete 3 duplicates &rarr; Recycle Bin</div><div class="btns"><span class="b go">Approve</span><span class="b">Skip</span></div></div></div>
+        <div class="fc rv"><span class="k">Model picker</span><h3>You choose the model</h3>
+          <p>See the models on your PC with their size and expected memory use, and download or remove them. It never switches model by itself.</p>
+          <div class="demo"><div class="row"><span>Compact</span><span class="dim">1.1 GB</span></div><div class="row"><span>Standard</span><span class="dim">1.9 GB</span></div></div></div>
+        <div class="fc w2 rv" style="--d:80ms"><span class="k">Updates</span><h3>Updates on your terms</h3>
+          <p>Checks for a new version once a day, tells you when one is ready, and restarts only when you click. You can switch the check off.</p>
+          <div class="demo"><div class="row"><span>Update ready, restart?</span><span class="btns" style="margin:0"><span class="b go">Restart</span><span class="b">Later</span></span></div></div></div>
+      </div>
     </div>
   </section>
 
@@ -362,32 +425,31 @@ p { max-width: 62ch; }
       <div class="head rv">
         <span class="eyebrow">Privacy</span>
         <h2>Your data. Your hardware. Your rules.</h2>
+        <p class="sub">There is no server of ours in the middle. This is everything that lives where, and every time the app touches the network.</p>
       </div>
-      <div class="cols3">
-        <div class="col rv">
-          <h3>Stays on your PC</h3>
+      <div class="zone rv">
+        <div class="box pc">
+          <h3>On your PC</h3>
           <ul>
             <li>Your files and the search index</li>
             <li>Your chats and settings</li>
             <li>The model that writes the answers</li>
           </ul>
         </div>
-        <div class="col rv">
-          <h3>Goes online only when you let it</h3>
-          <ul>
-            <li>Downloading a model, when you click Download</li>
-            <li>The daily update check, which you can switch off in Settings</li>
-            <li>An optional other model server. It is off by default, and a server that is not on your PC needs https and a second confirmation.</li>
-          </ul>
-        </div>
-        <div class="col rv">
-          <h3>Never</h3>
+        <div class="wire" aria-hidden="true"><i></i><i></i><span>nothing here</span></div>
+        <div class="box net">
+          <h3>Our servers</h3>
           <ul>
             <li>No account to create</li>
             <li>No telemetry or usage tracking</li>
             <li>No files uploaded to us</li>
           </ul>
         </div>
+      </div>
+      <div class="ledger rv">
+        <div class="led"><b>Downloading a model</b><span>Only when you click Download, with a progress bar you can cancel.</span><em class="st off">your click</em></div>
+        <div class="led"><b>Daily update check</b><span>Looks for a new version once a day. Nothing installs until you click restart.</span><em class="st">can switch off</em></div>
+        <div class="led"><b>Other model server</b><span>Optional. A server that is not on your PC needs https and a second confirmation.</span><em class="st off">off by default</em></div>
       </div>
     </div>
   </section>
@@ -408,43 +470,65 @@ p { max-width: 62ch; }
   </section>
 
   <section class="section" id="faq">
-    <div class="wrap">
-      <div class="head rv">
+    <div class="wrap faqwrap">
+      <div class="faqside rv">
         <span class="eyebrow">Questions</span>
         <h2>Good questions, honest answers</h2>
+        <p>The things people ask before they put an AI near their documents.</p>
+        <a class="btn ghost small" href="https://github.com/tarun81-ops/local-agentic-openvino/issues" target="_blank" rel="noopener" style="justify-self:start">Ask on GitHub</a>
       </div>
-      <div class="faq">
+      <div class="faq rv">
+        <div class="grp">Trust &amp; accuracy</div>
         <details>
-          <summary>Does it need the internet?</summary>
-          <p>Only to download a model and to check for updates. After that it answers offline.</p>
+          <summary>Can I trust what a small model says?</summary>
+          <div><p>Treat it like a fast research assistant, not an oracle. It can still make mistakes, which is why each answer shows the file and page it used, and why a claim that is not in the file is marked. Open the source when the answer matters. Files only mode adds a stricter check.</p>
+          <div class="demo"><div>Lease ends <b>31 March 2027</b> <span class="ok">&#10003; lease_agreement.pdf · p.4</span></div><div><span class="bad">!</span> "Deposit is refundable" <span class="bad">not verified</span></div></div></div>
         </details>
         <details>
-          <summary>How accurate is a small model?</summary>
-          <p>It can still make mistakes. That is why each answer shows the file and page it used, and why a claim that is not in the file is marked. Open the source when the answer matters. Files only mode adds a stricter check.</p>
+          <summary>What happens when the answer isn't in my files?</summary>
+          <div><p>With Files only on, it says it cannot back the answer with one of your files instead of answering from general knowledge.</p></div>
         </details>
         <details>
           <summary>Will it change or delete my files?</summary>
-          <p>Only after you approve a proposal. Removed files go to the Recycle Bin. Reading your files never changes them.</p>
+          <div><p>Only after you approve a proposal. Removed files go to the Recycle Bin. Reading your files never changes them.</p>
+          <div class="demo"><div>Proposal: delete 3 duplicate photos</div><div class="btns"><span class="b go">Approve</span><span class="b">Skip</span></div></div></div>
         </details>
         <details>
+          <summary>Does my data train a model?</summary>
+          <div><p>No. The model runs on your PC and your files are never uploaded to us, so there is nothing for us to train on.</p></div>
+        </details>
+
+        <div class="grp">Setup &amp; hardware</div>
+        <details>
           <summary>Which build should I pick?</summary>
-          <p>Pick OpenVINO on an Intel PC, especially one with a Core Ultra processor, because it can use the graphics chip or the NPU. Pick Ollama if you already run Ollama or your PC does not have Intel graphics.</p>
+          <div><p>Pick OpenVINO on an Intel PC, especially one with a Core Ultra processor, because it can use the graphics chip or the NPU. Pick Ollama if you already run Ollama or your PC does not have Intel graphics.</p></div>
+        </details>
+        <details>
+          <summary>How much memory and disk does it need?</summary>
+          <div><p>16 GB of RAM is recommended. The models are about 1.9 GB on first run, or about 1.1 GB on PCs with less RAM.</p></div>
         </details>
         <details>
           <summary>What is a small language model?</summary>
-          <p>A compact AI model, a few gigabytes in size, built to run on ordinary hardware. It is not as broad as the biggest cloud models, but for answering questions from your own documents it is fast, private and good enough, and it shows its sources.</p>
+          <div><p>A compact AI model, a few gigabytes in size, built to run on ordinary hardware. It is not as broad as the biggest cloud models, but for answering questions from your own documents it is fast, private and good enough, and it shows its sources.</p></div>
         </details>
         <details>
           <summary>Does it work on Mac or Linux?</summary>
-          <p>Not yet. The installers are for Windows 11.</p>
+          <div><p>Not yet. The installers are for Windows 11.</p></div>
+        </details>
+
+        <div class="grp">Day to day</div>
+        <details>
+          <summary>Does it need the internet?</summary>
+          <div><p>Only to download a model and to check for updates. After that it answers offline.</p></div>
         </details>
         <details>
           <summary>How do I update it?</summary>
-          <p>It checks once a day and shows "Update ready, restart?". Nothing installs until you click. The check can be switched off in Settings.</p>
+          <div><p>It checks once a day and shows "Update ready, restart?". Nothing installs until you click. The check can be switched off in Settings.</p></div>
         </details>
       </div>
     </div>
   </section>
+
   <section class="cta-band rv">
     <h2>Own your intelligence.</h2>
     <p>Free for Windows 11. Install it, point it at a folder, and ask.</p>

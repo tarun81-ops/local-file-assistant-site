@@ -1,0 +1,40 @@
+# Static single-file site (index.html, sitemap.xml, .nojekyll): no build step, so ignore only local noise.
+
+# OS
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Claude Code / AI tooling (local session state)
+.claude/
+.cursor/
+.gemini/
+.codex/
+
+# Local preview and scratch
+*.log
+*.tmp
+*.bak
+tmp/
+scratch/
+preview/
+
+# Env and secrets (never commit)
+.env
+.env.*
+*.pem
+*.key
+
+# Tooling, in case a build step is added later
+node_modules/
+dist/
+.cache/
